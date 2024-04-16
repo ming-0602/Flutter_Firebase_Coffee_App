@@ -8,11 +8,13 @@ class productstatefulpage extends StatefulWidget {
 
   final String name;
   final String image;
+  final String id;
 
   const productstatefulpage({
     Key? key,
     required this.name,
     required this.image,
+    required this.id
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class _productstatefulpageState extends State<productstatefulpage> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => productpage(name: widget.name, image: widget.image,),
+      builder: (ctx) => productpage(name: widget.name, image: widget.image, id: widget.id),
     );
   }
 

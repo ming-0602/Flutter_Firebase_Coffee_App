@@ -1,3 +1,5 @@
+// import 'dart:js_interop';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethod {
@@ -23,7 +25,7 @@ class DatabaseMethod {
       final DocumentSnapshot snapshot = await _firestore.collection('product').doc(id).get();
       if (snapshot.exists) {
         final data = snapshot.data();
-        return {'id': snapshot.id, 'data': data};
+        return {'id': snapshot.id, 'data': data,};
       } else {
         print('Document with ID $id does not exist.');
         return null;
@@ -35,5 +37,5 @@ class DatabaseMethod {
     }
   }
 
-  
+
 }
