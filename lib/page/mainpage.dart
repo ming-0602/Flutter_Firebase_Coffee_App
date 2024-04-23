@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee/service/database.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:coffee/page/stfulproductcard.dart';
+import 'package:coffee/widget/stfulproductcard.dart';
 import 'package:coffee/widget/cartbutton.dart';
 import 'package:coffee/widget/bottomnavbar.dart';
 import 'cartpage.dart';

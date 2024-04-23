@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'productpage.dart';
+import '../page/productpage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -26,6 +26,7 @@ class _productstatefulpageState extends State<productstatefulpage> {
   void _openIconbutton(){
     showModalBottomSheet(
       isScrollControlled: true,
+      isDismissible: true,
       context: context,
       builder: (ctx) => productpage(name: widget.name, image: widget.image, id: widget.id),
     );
