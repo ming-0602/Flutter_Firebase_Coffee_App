@@ -83,7 +83,7 @@ class _addedtocart_itemState extends State<addedtocart_item> {
                               ],
                             ),
                           ),
-                          TextButton(onPressed: null, child: Text('Remove', style: TextStyle(fontSize: 12.sp),))
+                          TextButton(onPressed: null, child: Text('Remove', style: TextStyle(fontSize: 11.sp),))
                         ],
                       ),
                     ),
