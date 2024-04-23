@@ -19,7 +19,7 @@ class _checkoutbuttonState extends State<checkoutbutton> {
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
               onPressed: null,
-              child: Text('Checkout')
+              child: Text('Checkout' , style: TextStyle(fontSize: 12),)
           ),
         ),
       ),
