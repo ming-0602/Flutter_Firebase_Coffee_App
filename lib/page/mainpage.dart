@@ -50,7 +50,7 @@ class Mainpage extends StatelessWidget {
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         final item = data[index];
-                        return productstatefulpage(
+                        return productcard(
                           id: item['id'],
                           name: item['data']['product_name'],
                           image: item['data']['product_img'],

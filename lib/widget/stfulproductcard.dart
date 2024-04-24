@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import '../page/productpage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:coffee/service/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class productstatefulpage extends StatefulWidget {
+class productcard extends StatefulWidget {
 
   final String name;
   final String image;
   final String id;
 
-  const productstatefulpage({
+  const productcard({
     Key? key,
     required this.name,
     required this.image,
@@ -18,10 +20,10 @@ class productstatefulpage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<productstatefulpage> createState() => _productstatefulpageState();
+  State<productcard> createState() => _productcardState();
 }
 
-class _productstatefulpageState extends State<productstatefulpage> {
+class _productcardState extends State<productcard> {
 
   void _openIconbutton(){
     showModalBottomSheet(
@@ -31,6 +33,8 @@ class _productstatefulpageState extends State<productstatefulpage> {
       builder: (ctx) => productpage(name: widget.name, image: widget.image, id: widget.id),
     );
   }
+
+  final dbMethod = DatabaseMethod();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,16 @@ class _productstatefulpageState extends State<productstatefulpage> {
                   // color: Colors.green,
                   child: ElevatedButton(
                     onPressed: () {
+                      Map<String, dynamic> tem = {
+                        "product_name" : widget.name,
+                        "product_img" : widget.image,
+                        "quantity" : 1,
+                      };
+                      dbMethod.addProducttoCart(tem);
+
+                      Fluttertoast.showToast(msg: "Added to Cart");
+                      // Fluttertoast.cancel();
+
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow
