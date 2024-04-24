@@ -26,65 +26,58 @@ class _CartPageState extends State<CartPage> {
   }
 
   Future<void> _loadData() async {
-    _futureAllData = _databaseMethod.getAllProducts();
+    _futureAllData = _databaseMethod.getAddedtoCartItem();
     await _futureAllData;
+    // print('this is the cartpage');
+    // print(_futureAllData);
   }
 
   @override
-  Widget build(BuildContext context){
-    return SafeArea(child: ScreenUtilInit(
-
-      designSize: const Size(360, 640),
-      minTextAdapt: true,
-      splitScreenMode: false,
-      child: MaterialApp(
-        home: Scaffold(
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ScreenUtilInit(
+        designSize: const Size(360, 640),
+        minTextAdapt: true,
+        splitScreenMode: false,
+        child: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              '=3=', style: TextStyle(fontWeight: FontWeight.bold),),
+            title: const Text('=3=', style: TextStyle(fontWeight: FontWeight.bold),),
             backgroundColor: Colors.yellow,
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView(
+          body: FutureBuilder<List<Map<String, dynamic>>>(
+            future: _futureAllData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Data is available, build ListView
+                final List<Map<String, dynamic>> data = snapshot.data!;
+                // print(data[0]['data']['product_name']);
+                return Column(
                   children: [
-                    addedtocart_item(),
-                    addedtocart_item(),
-                    addedtocart_item(),
-                    addedtocart_item(),
-                    addedtocart_item(),
-                    addedtocart_item(),
-                    addedtocart_item(),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          final itemData = data[index]['data'];
+                          final productName = itemData?['product_name'] ?? '';
+                          final productImage = itemData?['product_img'] ?? '';
+                          final quantity = itemData?['quantity'] ?? '';
+                          return addedtocart_item(name: productName, img: productImage, quantity: quantity.toString(),);
+                        },
+                      ),
+                    ),
+                    checkoutbutton(),
                   ],
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(11.0),
-              //   child: Container(
-              //     color: Colors.black,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.end,
-              //       children: [
-              //         ElevatedButton(
-              //           onPressed: () {
-              //             // Add your button action here
-              //           },
-              //           child: Text('Your Button'),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              checkoutbutton()
-            ],
+                );
+              }
+            },
           ),
-          // addedtocart_item(),
           bottomNavigationBar: CusBotAppBar(),
-          // floatingActionButton: cartbutton(),
         ),
       ),
-    )
     );
   }
 }

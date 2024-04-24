@@ -215,7 +215,6 @@ class _productpageState extends State<productpage> {
                         ),
                       ),
                       radiolist(criteria :criteria),
-
                     ],
                   ),
                 ),

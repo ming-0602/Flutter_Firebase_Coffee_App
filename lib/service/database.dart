@@ -38,4 +38,28 @@ class DatabaseMethod {
   }
 
 
+  Future<void> addProducttoCart(Map<String, dynamic> productData) async {
+   try {
+     CollectionReference item = FirebaseFirestore.instance.collection('cart');
+     item.add(
+       productData
+     );
+   }catch (e) {
+     print('Error writing product: $e');
+    }
+  }
+
+
+  Future<List<Map<String, dynamic>>> getAddedtoCartItem() async{
+    try{
+      final QuerySnapshot snapshot = await _firestore.collection('cart').get();
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        return {"data" :data};
+      }).toList();
+    }catch(e){
+      print('Error : $e');
+      return [];
+    }
+  }
 }
