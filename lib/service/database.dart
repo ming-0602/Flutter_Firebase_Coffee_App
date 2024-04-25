@@ -1,5 +1,9 @@
 // import 'dart:js_interop';
 
+// import 'dart:html';
+
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethod {
@@ -61,5 +65,28 @@ class DatabaseMethod {
       print('Error : $e');
       return [];
     }
+  }
+
+  Future<void> removeCartItem(String product_name) async{
+    QuerySnapshot snapshot = await _firestore.collection('cart').where('product_name', isEqualTo: product_name).get();
+    snapshot.docs.forEach((doc) async{
+      await doc.reference.delete();
+    });
+  }
+
+  Stream<List<Map<String, dynamic>>> getAddedtoCartItemStream() {
+    StreamController<List<Map<String, dynamic>>> controller = StreamController<List<Map<String, dynamic>>>();
+    _firestore.collection('cart').snapshots().listen((QuerySnapshot snapshot) {
+      List<Map<String, dynamic>> cartItems = [];
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        cartItems.add({"data": data});
+      }
+      controller.add(cartItems);
+    }, onError: (error) {
+      print('Stream Error: $error');
+      controller.addError(error);
+    });
+    return controller.stream;
   }
 }

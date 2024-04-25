@@ -19,10 +19,14 @@ class _CartPageState extends State<CartPage> {
   final DatabaseMethod _databaseMethod = DatabaseMethod();
   late Future<List<Map<String, dynamic>>> _futureAllData;
 
+  late Stream<List<Map<String, dynamic>>> _cartItemsStream;
+
   @override
   void initState() {
     super.initState();
     _loadData();
+    // _cartItemsStream = _databaseMethod.getAddedtoCartItem();
+    _cartItemsStream = _databaseMethod.getAddedtoCartItemStream();
   }
 
   Future<void> _loadData() async {
@@ -53,20 +57,26 @@ class _CartPageState extends State<CartPage> {
                 return Text('Error: ${snapshot.error}');
               } else {
                 // Data is available, build ListView
-                final List<Map<String, dynamic>> data = snapshot.data!;
+                // final List<Map<String, dynamic>> data = snapshot.data!;
                 // print(data[0]['data']['product_name']);
                 return Column(
                   children: [
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          final itemData = data[index]['data'];
-                          final productName = itemData?['product_name'] ?? '';
-                          final productImage = itemData?['product_img'] ?? '';
-                          final quantity = itemData?['quantity'] ?? '';
-                          return addedtocart_item(name: productName, img: productImage, quantity: quantity.toString(),);
-                        },
+                      child: StreamBuilder<List<Map<String, dynamic>>>(
+                        stream: _cartItemsStream,
+                        builder: (context, snapshot) {
+                          final List<Map<String, dynamic>> data = snapshot.data!;
+                          return ListView.builder(
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final itemData = data[index]['data'];
+                              final productName = itemData?['product_name'] ?? '';
+                              final productImage = itemData?['product_img'] ?? '';
+                              final quantity = itemData?['quantity'] ?? '';
+                              return addedtocart_item(name: productName, img: productImage, quantity: quantity.toString(),);
+                            },
+                          );
+                        }
                       ),
                     ),
                     checkoutbutton(),
