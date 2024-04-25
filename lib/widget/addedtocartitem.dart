@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:coffee/service/database.dart';
 
 class addedtocart_item extends StatefulWidget {
+  // final Function() notifyParent;
 
   final String name;
   final String img;
@@ -10,9 +12,11 @@ class addedtocart_item extends StatefulWidget {
 
   const addedtocart_item({
     Key? key,
+    // required this.notifyParent,
     required this.name,
     required this.img,
-    required this.quantity
+    required this.quantity,
+
   }) : super(key: key);
 
   @override
@@ -20,6 +24,9 @@ class addedtocart_item extends StatefulWidget {
 }
 
 class _addedtocart_itemState extends State<addedtocart_item> {
+  final dbMethod = DatabaseMethod();
+
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -94,7 +101,12 @@ class _addedtocart_itemState extends State<addedtocart_item> {
                               ],
                             ),
                           ),
-                          TextButton(onPressed: null, child: Text('Remove', style: TextStyle(fontSize: 11.sp),))
+                          TextButton(
+                              onPressed: () {
+                                dbMethod.removeCartItem(widget.name.toString());
+                                setState(() {});
+                                },
+                              child: Text('Remove', style: TextStyle(fontSize: 11.sp),))
                         ],
                       ),
                     ),

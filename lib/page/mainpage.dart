@@ -1,3 +1,4 @@
+import 'package:coffee/widget/addedtocartitem.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee/service/database.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,18 +7,30 @@ import 'package:coffee/widget/cartbutton.dart';
 import 'package:coffee/widget/bottomnavbar.dart';
 import 'cartpage.dart';
 
-class Mainpage extends StatelessWidget {
+class Mainpage extends StatefulWidget {
   final Future<List<Map<String, dynamic>>> allData;
-  // MyApp({Key? key}) : super(key: key);
 
-  final dbMethod = DatabaseMethod();
   Mainpage({Key? key}) : allData = DatabaseMethod().getAllProducts(), super(key: key);
 
   static int currentTab = 0;
+
+  @override
+  State<Mainpage> createState() => _MainpageState();
+}
+
+class _MainpageState extends State<Mainpage> {
+  final dbMethod = DatabaseMethod();
+
+  refresh() {
+    setState(() {});
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: allData,
+      future: widget.allData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // or any loading indicator
