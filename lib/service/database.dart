@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class DatabaseMethod {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -43,11 +44,23 @@ class DatabaseMethod {
 
 
   Future<void> addProducttoCart(Map<String, dynamic> productData) async {
-   try {
-     CollectionReference item = FirebaseFirestore.instance.collection('cart');
-     item.add(
-       productData
-     );
+    try {
+      final QuerySnapshot snapshot = await _firestore.collection('cart').where('product_name', isEqualTo: productData['product_name']).get();
+      CollectionReference item = FirebaseFirestore.instance.collection('cart');
+      if (snapshot.docs.isNotEmpty) {
+        for (final doc in snapshot.docs) {
+          final data = doc.data() as Map<String, dynamic>;
+          if(data?['product_name'] == productData['product_name']){
+            await doc.reference.update({'quantity' : data?['quantity'] + 1});
+            return;
+          }
+        }
+      } else {
+        item.add(
+            productData
+        );
+      }
+
    }catch (e) {
      print('Error writing product: $e');
     }
