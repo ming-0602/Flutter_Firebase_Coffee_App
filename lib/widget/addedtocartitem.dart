@@ -85,13 +85,17 @@ class _addedtocart_itemState extends State<addedtocart_item> {
                               children: [
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: null,
+                                  onPressed: (){
+                                    dbMethod.increaseProductQuantity(widget.name);
+                                  },
                                   icon: Icon(Icons.add, size: 16.sp),
                                 ),
                                 Text(widget.quantity, style: TextStyle(fontSize: 12.sp)),
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: null,
+                                  onPressed: (){
+                                    dbMethod.decreaseProductQuantity(widget.name);
+                                  },
                                   icon: Icon(Icons.remove, size: 16.sp),
                                 ),
                                 // TextButton(
