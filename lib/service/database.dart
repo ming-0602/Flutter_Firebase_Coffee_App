@@ -102,4 +102,35 @@ class DatabaseMethod {
     });
     return controller.stream;
   }
+
+  Future<void> decreaseProductQuantity(String product_name) async {
+    try {
+      final QuerySnapshot snapshot = await _firestore.collection('cart').where('product_name', isEqualTo: product_name).get();
+
+      for (final doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        if (data['quantity'] > 1) {
+          await doc.reference.update({'quantity': data['quantity'] - 1});
+        } else {
+          // If quantity is 1, remove the product from the cart
+          await doc.reference.delete();
+        }
+      }
+    } catch (e) {
+      print('Error decreasing product quantity: $e');
+    }
+  }
+
+  Future<void> increaseProductQuantity(String product_name) async {
+    try {
+      final QuerySnapshot snapshot = await _firestore.collection('cart').where('product_name', isEqualTo: product_name).get();
+
+      for (final doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        await doc.reference.update({'quantity': data['quantity'] + 1});
+      }
+    } catch (e) {
+      print('Error increasing product quantity: $e');
+    }
+  }
 }
