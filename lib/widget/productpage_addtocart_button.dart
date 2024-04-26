@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:coffee/service/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class pg_addtocart extends StatefulWidget {
-  const pg_addtocart({super.key});
+
+  final String name;
+  final String image;
+
+  const pg_addtocart({
+    Key? key,
+    required this.name,
+    required this.image,
+  }) : super(key: key);
 
   @override
   State<pg_addtocart> createState() => _pg_addtocartState();
 }
 
 class _pg_addtocartState extends State<pg_addtocart> {
+  final dbMethod = DatabaseMethod();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,6 +34,14 @@ class _pg_addtocartState extends State<pg_addtocart> {
             child: ElevatedButton(
               onPressed: () {
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => rickRoll()));
+                Map<String, dynamic> tem = {
+                  "product_name" : widget.name,
+                  "product_img" : widget.image,
+                  "quantity" : 1,
+                };
+                dbMethod.addProducttoCart(tem);
+
+                Fluttertoast.showToast(msg: "Added to Cart");
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
