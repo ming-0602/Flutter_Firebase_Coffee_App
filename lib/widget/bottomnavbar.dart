@@ -4,6 +4,7 @@ import 'package:coffee/main.dart';
 import 'package:coffee/service/database.dart';
 import 'package:coffee/page/mainpage.dart';
 import 'package:coffee/page/cartpage.dart';
+import 'package:coffee/page/activitypage.dart';
 
 class CusBotAppBar extends StatefulWidget {
   const CusBotAppBar({super.key});
@@ -15,7 +16,7 @@ class CusBotAppBar extends StatefulWidget {
 class _CusBotAppBarState extends State<CusBotAppBar> {
   final Map<int, Widget> pages = {
     0: Mainpage(),
-    1: CartPage(),
+    1: activitypage(),
     2: CartPage(),
     3: Mainpage(),
     // Add more pages as needed
