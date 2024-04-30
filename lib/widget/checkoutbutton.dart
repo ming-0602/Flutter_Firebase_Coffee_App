@@ -8,6 +8,22 @@ class checkoutbutton extends StatefulWidget {
 }
 
 class _checkoutbuttonState extends State<checkoutbutton> {
+
+  void _showalertconfirmationdiaglo(){
+    showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text('Checkout'),
+        content: Text("You have chcekout out"),
+        actions: <Widget>[
+          TextButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: Text('OK!'))
+        ]
+      );
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Opacity(
@@ -18,8 +34,11 @@ class _checkoutbuttonState extends State<checkoutbutton> {
         child: Align(
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
-              onPressed: null,
-              child: Text('Checkout' , style: TextStyle(fontSize: 12),)
+              onPressed: _showalertconfirmationdiaglo,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.yellow)
+            ),
+            child: Text('Checkout' , style: TextStyle(fontSize: 12, color: Colors.black),),
           ),
         ),
       ),
