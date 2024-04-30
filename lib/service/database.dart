@@ -133,4 +133,42 @@ class DatabaseMethod {
       print('Error increasing product quantity: $e');
     }
   }
+
+  Future<void> placeOrder() async {
+    try {
+      // Get all items from the cart
+      final QuerySnapshot cartSnapshot = await _firestore.collection('cart').get();
+      List<Map<String, dynamic>> items = [];
+      cartSnapshot.docs.forEach((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        final String itemName = data['product_name'];
+        final int quantity = data['quantity'];
+        items.add({'name': itemName, 'quantity': quantity});
+      });
+
+      // Get current date in "5/1/2024" format
+      final now = DateTime.now();
+      final orderDate = "${now.month}/${now.day}/${now.year}";
+
+      // Create order document with order date and items
+      final orderData = {
+        'orderdate': orderDate,
+        'items': items,
+      };
+
+      // Post order data to the activity
+      await _firestore.collection('activity').add(orderData);
+
+      // Delete all items from the cart
+      cartSnapshot.docs.forEach((doc) async {
+        await doc.reference.delete();
+      });
+
+      print('Order placed successfully!');
+    } catch (e) {
+      print('Error placing order: $e');
+    }
+  }
+
+
 }
