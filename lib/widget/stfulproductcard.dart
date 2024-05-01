@@ -30,6 +30,7 @@ class _productcardState extends State<productcard> {
       isScrollControlled: true,
       isDismissible: true,
       context: context,
+      enableDrag: true,
       builder: (ctx) => productpage(name: widget.name, image: widget.image, id: widget.id),
     );
   }

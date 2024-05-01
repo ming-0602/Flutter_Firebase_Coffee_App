@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:coffee/service/database.dart';
 
 class checkoutbutton extends StatefulWidget {
   const checkoutbutton({super.key});
@@ -8,6 +9,7 @@ class checkoutbutton extends StatefulWidget {
 }
 
 class _checkoutbuttonState extends State<checkoutbutton> {
+  final dbMethod = DatabaseMethod();
 
   void _showalertconfirmationdiaglo(){
     showDialog(context: context, builder: (BuildContext context){
@@ -23,7 +25,6 @@ class _checkoutbuttonState extends State<checkoutbutton> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Opacity(
@@ -34,7 +35,10 @@ class _checkoutbuttonState extends State<checkoutbutton> {
         child: Align(
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
-              onPressed: _showalertconfirmationdiaglo,
+              onPressed: (){
+                dbMethod.placeOrder();
+                _showalertconfirmationdiaglo();
+              },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.yellow)
             ),
