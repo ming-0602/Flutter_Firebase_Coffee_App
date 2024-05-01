@@ -170,5 +170,18 @@ class DatabaseMethod {
     }
   }
 
-
+  Future<List<Map<String, dynamic>>> getActivityData() async {
+    try {
+      final QuerySnapshot snapshot = await _firestore.collection('activity').get();
+      return snapshot.docs.map((doc) {
+        final orderDate = doc['orderdate'] as String;
+        final items = List<Map<String, dynamic>>.from(doc['items']);
+        return {'orderdate': orderDate, 'items': items};
+      }).toList();
+    } catch (e) {
+      // Handle error
+      print('Error fetching activity data: $e');
+      return []; // Return empty list on error
+    }
+  }
 }
