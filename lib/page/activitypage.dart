@@ -29,6 +29,7 @@ class _activitypageState extends State<activitypage> {
         minTextAdapt: true,
         splitScreenMode: false,
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
             appBar: AppBar(
               title: const Text('=3=', style: TextStyle(fontWeight: FontWeight.bold)),

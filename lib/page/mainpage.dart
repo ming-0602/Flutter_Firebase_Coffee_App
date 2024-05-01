@@ -44,6 +44,7 @@ class _MainpageState extends State<Mainpage> {
               minTextAdapt: true,
               splitScreenMode: false,
               child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 home: Scaffold(
                   appBar: AppBar(
                     title: const Text(
